@@ -75,6 +75,8 @@ def test(args):
         env = Go1MujocoEnv(
             ctrl_type=args.ctrl_type,
             render_mode="human",
+            reset_noise_scale=0.0,
+            startup_grace_steps=25,
         )
         inter_frame_sleep = 0.016
     else:
@@ -85,6 +87,8 @@ def test(args):
             camera_name="tracking",
             width=1920,
             height=1080,
+            reset_noise_scale=0.0,
+            startup_grace_steps=25,
         )
         env = gym.wrappers.RecordVideo(
             env, video_folder="recordings/", name_prefix=model_path.parent.name

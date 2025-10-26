@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Macro to define a ROS 2 Control joint entry -->
+  <xacro:macro name="ros2_control_joint" params="joint_name">
+    <joint name="${joint_name}">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

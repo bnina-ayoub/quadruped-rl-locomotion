@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ground">
+
+  <xacro:macro name="ground_plane" params="size_x size_y size_z z_offset">
+    <link name="ground_link">
+      <visual>
+        <origin xyz="0 0 ${z_offset}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${size_x} ${size_y} ${size_z}"/>
+        </geometry>
+        <material name="ground_material">
+          <color rgba="0.4 0.4 0.4 1.0"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 ${z_offset}" rpy="0 0 0"/>
+        <geometry>
+          <box size="${size_x} ${size_y} ${size_z}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 ${z_offset}" rpy="0 0 0"/>
+        <mass value="0"/>
+        <inertia ixx="0" iyy="0" izz="0" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <joint name="ground_joint" type="fixed">
+      <parent link="world"/>
+      <child link="ground_link"/>
+    </joint>
+  </xacro:macro>
+
+</robot>
+

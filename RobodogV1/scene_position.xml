@@ -1,0 +1,26 @@
+<mujoco model="robodog scene">
+  <include file="robodogv1_position.xml"/>
+
+  <statistic center="0 0 0.1" extent="0.8"/>
+
+  <visual>
+    <!-- Simple black background -->
+    <headlight diffuse="0.4 0.4 0.4" ambient="0.1 0.1 0.1" specular="0 0 0"/>
+    <rgba haze="0 0 0 1"/>
+    <global azimuth="0" elevation="-20"/>
+    <map force="0.1" zfar="30"/>
+    <quality shadowsize="4096" offsamples="8"/>
+  </visual>
+
+  <asset>
+    <!-- Visible ground material with good contrast -->
+    <material name="groundplane" rgba="0.4 0.4 0.4 1" specular="0.1" shininess="0.1"/>
+    <texture name="skybox" type="skybox" builtin="gradient" rgb1="0 0 0" rgb2="0 0 0" width="800" height="800"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 3" dir="0 0 -1" directional="true" diffuse="1.0 1.0 1.0" specular="0.2 0.2 0.2" castshadow="true"/>
+    <light pos="2 2 2" dir="-1 -1 -1" directional="true" diffuse="0.3 0.3 0.3" specular="0.1 0.1 0.1"/>
+    <geom name="floor" size="10 10 0.02" type="plane" material="groundplane"/>
+  </worldbody>
+</mujoco>

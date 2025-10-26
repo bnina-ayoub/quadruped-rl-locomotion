@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robodog">
+
+  <!-- ===================================================== -->
+  <!-- === 1. Core Robot Model from SolidWorks           === -->
+  <!-- ===================================================== -->
+  <xacro:include filename="$(find robodog)/urdf/ROBODOG URDF.urdf"/>
+    <xacro:include filename="$(find robodog)/urdf/ground.urdf.xacro"/>
+  <xacro:ground_plane size_x="100" size_y="100" size_z="0.2" z_offset="-0.1"/>
+  <!-- ===================================================== -->
+  <!-- === 2. Joint Name Definitions                     === -->
+  <!-- ===================================================== -->
+  <!-- NOTE : These Names are for RobodogV2                  -->
+  <xacro:property name="legs"     value="${['front_right','front_left','back_right','back_left']}"/>
+  <xacro:property name="segments" value="${['_1','_2','_3']}"/>
+  <xacro:property name="joint_names" value="${[leg + seg for leg in legs for seg in segments]}"/>
+
+  <!-- ===================================================== -->
+  <!-- === 3. Include Required Xacros                     === -->
+  <!-- ===================================================== -->
+  <xacro:include filename="$(find robodog)/urdf/imu.urdf.xacro"/>
+  <xacro:include filename="$(find robodog)/urdf/robodog_transmission.xacro"/>
+  <xacro:include filename="$(find robodog)/urdf/robodog_ros2control.xacro"/>
+
+
+  <!-- ===================================================== -->
+  <!-- === 4. Emit Both Transmission & ROS 2 Control Joints === -->
+  <!-- ===================================================== -->
+  <xacro:macro name="emit_all_joint_config" params="items">
+    <xacro:if value="${len(items) > 0}">
+      <!-- Transmission -->
+      <xacro:robodog_transmission joint_name="${items[0]}"/>
+
+      <!-- ROS 2 Control Joint -->
+      <xacro:ros2_control_joint joint_name="${items[0]}"/>
+
+      <!-- Recursive Call -->
+      <xacro:emit_all_joint_config items="${items[1:]}"/>
+    </xacro:if>
+  </xacro:macro>
+
+  <xacro:emit_all_joint_config items="${joint_names}"/>
+
+  <!-- ===================================================== -->
+  <!-- === 5. ROS 2 Control Hardware & Gazebo Plugin      === -->
+  <!-- ===================================================== -->
+  <ros2_control name="GazeboSimSystem" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+
+    <!-- Loop emits joints above, so nothing hardcoded here -->
+  </ros2_control>
+
+  <gazebo>
+    <plugin filename="libgz_ros2_control-system.so"
+            name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find robodog)/config/robodog_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+
+  <!-- ===================================================== -->
+  <!-- === 6. IMU Placement                              === -->
+  <!-- ===================================================== -->
+  <xacro:imu_sensor xyz="0 0 0" rpy="0 0 0" parent="base_link"/>
+
+</robot>

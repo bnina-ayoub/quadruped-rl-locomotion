@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="imu">
+
+  <!-- xacro macro: place an IMU on any parent link -->
+  <xacro:macro name="imu_sensor" params="xyz rpy parent">
+    <!-- attach the imu link -->
+    <joint name="imu_sensor_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <parent link="${parent}"/>
+      <child link="imu_sensor_link"/>
+    </joint>
+
+    <link name="imu_sensor_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="0.02 0.02 0.02"/></geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry><box size="0.02 0.02 0.02"/></geometry>
+      </collision>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="1e-6" iyy="1e-6" izz="1e-6" ixy="0" ixz="0" iyz="0"/>
+      </inertial>
+    </link>
+
+    <!-- Gazebo Sim sensor attached to the imu_sensor_link -->
+    <gazebo reference="imu_sensor_link">
+      <sensor name="imu" type="imu">
+        <always_on>true</always_on>
+        <update_rate>200</update_rate>
+        <visualize>false</visualize>
+        <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+      </sensor>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>
+

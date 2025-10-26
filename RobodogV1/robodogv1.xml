@@ -1,0 +1,188 @@
+<mujoco model="Final Assembly Mosmos's dog">
+  <option iterations="50" timestep="0.005" solver="PGS" gravity="0 0 -9.81"/>
+  <compiler angle="radian" meshdir="meshes" eulerseq="zyx" autolimits="true"/>
+
+  <default>
+    <joint limited="true" damping="2.0" armature="0.1" frictionloss="0.1"/>
+    <geom condim="4" contype="1" conaffinity="15"
+          friction="3.0 0.1 0.01"
+          solref="0.02 1"
+          solimp="0.9 0.95 0.001"
+          margin="0.001"/>
+    <position ctrllimited="true" kp="150" ctrlrange="-1.5 1.5"/> 
+    <default class="visualgeom">
+      <geom material="visualgeom" condim="1" contype="0" conaffinity="0"/>
+    </default>
+  </default>
+
+  <asset>
+    <mesh name="base_link" file="base_link.STL"/>
+    <mesh name="front_right_joint" file="front_right_joint.STL"/>
+    <mesh name="front_right_hip" file="front_right_hip.STL"/>
+    <mesh name="front_right_leg" file="front_right_leg.STL"/>
+    <mesh name="front_left_joint" file="front_left_joint.STL"/>
+    <mesh name="front_left_hip" file="front_left_hip.STL"/>
+    <mesh name="front_left_leg" file="front_left_leg.STL"/>
+    <mesh name="rear_right_joint" file="rear_right_joint.STL"/>
+    <mesh name="rear_right_hip" file="rear_right_hip.STL"/>
+    <mesh name="rear_right_leg" file="rear_right_leg.STL"/>
+    <mesh name="rear_left_joint" file="rear_left_joint.STL"/>
+    <mesh name="rear_left_hip" file="rear_left_hip.STL"/>
+    <mesh name="rear_left_leg" file="rear_left_leg.STL"/>
+    <texture name="texplane" type="2d" builtin="checker" rgb1="0 0 0" rgb2="0.8 0.8 0.8" width="100" height="100"/>
+    <material name="matplane" reflectance="0.0" texture="texplane" texrepeat="1 1" texuniform="true"/>
+    <material name="visualgeom" rgba="0.5 0.9 0.2 1"/>
+    <hfield name="terrain" nrow="257" ncol="257" size="5 5 0.3 0.1" />
+
+  </asset>
+
+  <worldbody>
+    <light directional="true" diffuse="0.4 0.4 0.4" specular="0.1 0.1 0.1" pos="0 0 5" dir="0 0 -1" castshadow="false"/>
+    <light directional="true" diffuse="0.6 0.6 0.6" specular="0.2 0.2 0.2" pos="0 0 4" dir="0 0 -1"/>
+    <geom name="ground" type="hfield" hfield="terrain" pos="0 0 0" quat="1 0 0 0" material="matplane"/>
+    <camera name="fixed" pos="0 -3 0.776" xyaxes="1 0 0 0 0 1"/>
+    <camera name="track" mode="trackcom" pos="0 -3 0.776" xyaxes="1 0 0 0 0 1"/>
+
+    <body name="root" pos="0 0 0.35" quat="1 0 0 0">
+      <freejoint name="root"/>
+      <site name="imu" size="0.01" pos="0 0 0"/>
+      <geom type="mesh" mesh="base_link" class="visualgeom"/>
+      <geom type="mesh" mesh="base_link"/>
+      <inertial pos="0 0 0" mass="0.90" diaginertia="0.1 0.1 0.1"/> 
+      <!-- Adjust values -->
+
+      <body name="front_right_joint_body" pos="0.095349 -0.044498 -0.016137" quat="0.499998 -0.5 -0.500002 0.5">
+        <inertial pos="-0.0051161 0.0097183 -0.025267" quat="0.673054 0.739591 -0.00075883 0.00172195" mass="0.05551" diaginertia="1.77441e-05 1.16509e-05 9.16634e-06"/>
+  <joint name="frontRightJoint" axis="0 0 1" range="-1.2 1.2"/>
+        <geom type="mesh" mesh="front_right_joint" class="visualgeom"/>
+        <geom type="mesh" mesh="front_right_joint"/>
+
+        <body name="front_right_hip_body" pos="-0.022725 0.010225 -0.026" quat="0.707105 0 0.707108 0">
+          <inertial pos="-0.013949 0.03834 -0.021448" quat="0.616969 0.750093 0.17262 0.164048" mass="0.083392" diaginertia="6.54978e-05 6.28984e-05 9.96274e-06"/>
+          <joint name="frontRightHip" axis="0 0 1" range="-1.2 1.2"/>
+          <geom type="mesh" mesh="front_right_hip" class="visualgeom"/>
+          <geom type="mesh" mesh="front_right_hip"/>
+
+          <body name="front_right_leg_body" pos="-0.052167 0.11946 -0.017082">
+            <inertial pos="0.036209 0.019904 -0.028129" quat="0.350086 0.378978 0.599777 0.611624" mass="0.06245" diaginertia="4.70068e-05 4.43696e-05 8.27255e-06"/>
+            <joint name="frontRightLeg" axis="0 0 1" range="-1.2 1.2"/>
+            <geom type="mesh" mesh="front_right_leg" class="visualgeom"/>
+            <geom type="mesh" mesh="front_right_leg"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="front_left_joint_body"  pos="0.095349 0.044502 -0.016137" quat="0.499998 -0.5 -0.500002 0.5">
+        <inertial pos="0.0059337 0.0097421 -0.025308" quat="0.673052 0.739593 0.000629132 -0.00157516" mass="0.058404" diaginertia="1.84801e-05 1.20869e-05 9.59598e-06"/>
+  <joint name="frontLeftJoint" axis="0 0 1" range="-1.2 1.2"/>
+        <geom type="mesh" mesh="front_left_joint" class="visualgeom"/>
+        <geom type="mesh" mesh="front_left_joint"/>
+        <body name="front_left_hip_body" pos="0.0247 0.0102 -0.026" quat="0.707 0 0.707 0">
+          <inertial pos="-0.013938 0.038316 0.021449" quat="0.750145 0.616932 0.164347 0.172241" mass="0.083465" diaginertia="6.55373e-05 6.29382e-05 9.97141e-06"/>
+          <joint name="frontLeftHip" axis="0 0 1" range="-1.2 1.2"/>
+          <geom type="mesh" mesh="front_left_hip" class="visualgeom"/>
+          <geom type="mesh" mesh="front_left_hip"/>
+          <body name="front_left_leg_body"  pos="-0.052167 0.11946 0.017082">
+            <inertial pos="0.036259 0.019928 0.028131" quat="0.379043 0.350136 0.611596 0.599735" mass="0.062469" diaginertia="4.70053e-05 4.43686e-05 8.2731e-06"/>
+            <joint name="frontLeftLeg" axis="0 0 1" range="-1.2 1.2"/>
+            <geom type="mesh" mesh="front_left_leg" class="visualgeom"/>
+            <geom type="mesh" mesh="front_left_leg"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="rear_right_joint_body" pos="-0.096651 -0.044498 -0.016137" quat="0.707105 -0.707108 0 0">
+        <inertial pos="-0.025308 0.0097421 -0.0059337" quat="0.524085 0.476365 -0.521857 0.475475" mass="0.058404" diaginertia="1.84801e-05 1.20869e-05 9.59598e-06"/>
+  <joint name="rearRightJoint" axis="-1 0 0" range="-1.2 1.2"/>
+        <geom type="mesh" mesh="rear_right_joint" class="visualgeom"/>
+        <geom type="mesh" mesh="rear_right_joint"/>
+        <body name="rear_right_hip_body"  pos="-0.026 0.010225 -0.024725">
+          <inertial pos="-0.020156 0.035472 -0.021448" quat="0.601054 0.732985 0.234887 0.215164" mass="0.083392" diaginertia="6.54981e-05 6.28985e-05 9.96347e-06"/>
+          <joint name="rearRightHip" axis="0 0 1" range="-1.2 1.2"/>
+          <geom type="mesh" mesh="rear_right_hip" class="visualgeom"/>
+          <geom type="mesh" mesh="rear_right_hip"/>
+          <body name="rear_right_leg_body" pos="-0.071386 0.10907 -0.007082"> <!-- Changed Z from -0.017082 -->
+            <inertial pos="0.032013 0.026123 -0.028129" quat="0.29311 0.322961 0.631706 0.640883" mass="0.06245" diaginertia="4.70064e-05 4.43696e-05 8.27297e-06"/>
+            <joint name="rearRightLeg" axis="0 0 1" range="-1.2 1.2"/>
+            <geom type="mesh" mesh="rear_right_leg" class="visualgeom"/>
+            <geom type="mesh" mesh="rear_right_leg"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="rear_left_joint_body" pos="-0.096651 0.044502 -0.016137" quat="0.707105 -0.707108 0 0">
+        <inertial pos="-0.025267 0.0097183 0.0051161" quat="0.521752 0.475385 -0.524187 0.476458" mass="0.05551" diaginertia="1.77441e-05 1.16509e-05 9.16634e-06"/>
+  <joint name="rearLeftJoint" axis="-1 0 0" range="-1.2 1.2"/>
+        <geom type="mesh" mesh="rear_left_joint" class="visualgeom"/>
+        <geom type="mesh" mesh="rear_left_joint"/>
+        <body name="rear_left_hip_body" pos="-0.026 0.010225 0.022725">
+          <inertial pos="-0.020142 0.03545 0.021449" quat="0.733069 0.600992 0.215461 0.234511" mass="0.083465" diaginertia="6.55373e-05 6.29383e-05 9.97144e-06"/>
+          <joint name="rearLeftHip" axis="0 0 1" range="-1.2 1.2"/>
+          <geom type="mesh" mesh="rear_left_hip" class="visualgeom"/>
+          <geom type="mesh" mesh="rear_left_hip"/>
+          <body name="rear_left_leg_body" pos="-0.071386 0.10907 0.007082"> <!-- Changed Z from 0.017082 -->
+            <inertial pos="0.032058 0.026156 0.028131" quat="0.323036 0.293166 0.640857 0.631667" mass="0.062469" diaginertia="4.70047e-05 4.43686e-05 8.27366e-06"/>
+            <joint name="rearLeftLeg" axis="0 0 1" range="-1.2 1.2"/>
+            <geom type="mesh" mesh="rear_left_leg" class="visualgeom"/>
+            <geom type="mesh" mesh="rear_left_leg"/>
+          </body>
+        </body>
+      </body>
+    </body> </worldbody>
+
+  <actuator>
+    <position name="frontRightJoint" joint="frontRightJoint" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="frontRightHip" joint="frontRightHip" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="frontRightLeg" joint="frontRightLeg" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="frontLeftJoint" joint="frontLeftJoint" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="frontLeftHip" joint="frontLeftHip" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="frontLeftLeg" joint="frontLeftLeg" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="rearRightJoint" joint="rearRightJoint" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="rearRightHip" joint="rearRightHip" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="rearRightLeg" joint="rearRightLeg" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="rearLeftJoint" joint="rearLeftJoint" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="rearLeftHip" joint="rearLeftHip" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+    <position name="rearLeftLeg" joint="rearLeftLeg" kp="150" ctrllimited="true" ctrlrange="-1.5 1.5"/>
+  </actuator>
+
+  <sensor>
+    <actuatorpos name="frontRightJoint_p" actuator="frontRightJoint"/>
+    <actuatorvel name="frontRightJoint_v" actuator="frontRightJoint"/>
+    <actuatorfrc name="frontRightJoint_f" actuator="frontRightJoint" noise="0.001"/>
+    <actuatorpos name="frontRightHip_p" actuator="frontRightHip"/>
+    <actuatorvel name="frontRightHip_v" actuator="frontRightHip"/>
+    <actuatorfrc name="frontRightHip_f" actuator="frontRightHip" noise="0.001"/>
+    <actuatorpos name="frontRightLeg_p" actuator="frontRightLeg"/>
+    <actuatorvel name="frontRightLeg_v" actuator="frontRightLeg"/>
+    <actuatorfrc name="frontRightLeg_f" actuator="frontRightLeg" noise="0.001"/>
+    <actuatorpos name="frontLeftJoint_p" actuator="frontLeftJoint"/>
+    <actuatorvel name="frontLeftJoint_v" actuator="frontLeftJoint"/>
+    <actuatorfrc name="frontLeftJoint_f" actuator="frontLeftJoint" noise="0.001"/>
+    <actuatorpos name="frontLeftHip_p" actuator="frontLeftHip"/>
+    <actuatorvel name="frontLeftHip_v" actuator="frontLeftHip"/>
+    <actuatorfrc name="frontLeftHip_f" actuator="frontLeftHip" noise="0.001"/>
+    <actuatorpos name="frontLeftLeg_p" actuator="frontLeftLeg"/>
+    <actuatorvel name="frontLeftLeg_v" actuator="frontLeftLeg"/>
+    <actuatorfrc name="frontLeftLeg_f" actuator="frontLeftLeg" noise="0.001"/>
+    <actuatorpos name="rearRightJoint_p" actuator="rearRightJoint"/>
+    <actuatorvel name="rearRightJoint_v" actuator="rearRightJoint"/>
+    <actuatorfrc name="rearRightJoint_f" actuator="rearRightJoint" noise="0.001"/>
+    <actuatorpos name="rearRightHip_p" actuator="rearRightHip"/>
+    <actuatorvel name="rearRightHip_v" actuator="rearRightHip"/>
+    <actuatorfrc name="rearRightHip_f" actuator="rearRightHip" noise="0.001"/>
+    <actuatorpos name="rearRightLeg_p" actuator="rearRightLeg"/>
+    <actuatorvel name="rearRightLeg_v" actuator="rearRightLeg"/>
+    <actuatorfrc name="rearRightLeg_f" actuator="rearRightLeg" noise="0.001"/>
+    <actuatorpos name="rearLeftJoint_p" actuator="rearLeftJoint"/>
+    <actuatorvel name="rearLeftJoint_v" actuator="rearLeftJoint"/>
+    <actuatorfrc name="rearLeftJoint_f" actuator="rearLeftJoint" noise="0.001"/>
+    <actuatorpos name="rearLeftHip_p" actuator="rearLeftHip"/>
+    <actuatorvel name="rearLeftHip_v" actuator="rearLeftHip"/>
+    <actuatorfrc name="rearLeftHip_f" actuator="rearLeftHip" noise="0.001"/>
+    <actuatorpos name="rearLeftLeg_p" actuator="rearLeftLeg"/>
+    <actuatorvel name="rearLeftLeg_v" actuator="rearLeftLeg"/>
+    <actuatorfrc name="rearLeftLeg_f" actuator="rearLeftLeg" noise="0.001"/>
+    <framequat name="orientation" objtype="site" objname="imu" noise="0.001"/>
+    <gyro name="angular-velocity" site="imu" noise="0.005" cutoff="34.9"/>
+  </sensor>
+</mujoco>

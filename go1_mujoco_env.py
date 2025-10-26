@@ -29,8 +29,8 @@ class Go1MujocoEnv(MujocoEnv):
         ],
     }
 
-    def __init__(self, ctrl_type="torque", **kwargs):
-        model_path = Path(f"./unitree_go1/scene_{ctrl_type}.xml")
+    def __init__(self, ctrl_type="torque", reset_noise_scale: float = 0.1, startup_grace_steps: int = 0, **kwargs):
+        model_path = Path(f"./RobodogV1/scene_{ctrl_type}.xml")
         MujocoEnv.__init__(
             self,
             model_path=model_path.absolute().as_posix(),
@@ -39,6 +39,9 @@ class Go1MujocoEnv(MujocoEnv):
             default_camera_config=DEFAULT_CAMERA_CONFIG,
             **kwargs,
         )
+
+        self._reset_noise_scale = float(reset_noise_scale)
+        self._startup_grace_steps = int(startup_grace_steps)
 
         # Update metadata to include the render FPS
         self.metadata = {
@@ -114,7 +117,7 @@ class Go1MujocoEnv(MujocoEnv):
         self._soft_joint_range[:, 0] += ctrl_range_offset
         self._soft_joint_range[:, 1] -= ctrl_range_offset
 
-        self._reset_noise_scale = 0.1
+    # self._reset_noise_scale is now set in __init__
 
         # Action: 12 torque values
         self._last_action = np.zeros(12)
